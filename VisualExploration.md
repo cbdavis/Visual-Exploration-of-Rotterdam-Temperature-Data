@@ -1,6 +1,6 @@
 # A Visual Exploration of Rotterdam Temperature Data
 Chris Davis  
-`r format(Sys.Date())`  
+November 15, 2015  
 
 There's a lot of discussion about weather and climate change, but what seems to not get covered that much is what temperature data *actually* looks like.  Arguments about whether a cold wave disproves global warning or a heat wave is a sign of impending doom, really miss the point that the weather is a chaotic system, which is something that very clearly shows up in the data.
 

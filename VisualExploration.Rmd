@@ -1,7 +1,7 @@
 ---
 title: "A Visual Exploration of Rotterdam Temperature Data"
 author: "Chris Davis"
-date: "`r format(Sys.Date())`"
+date: November 15, 2015
 output: 
   html_document:  
     keep_md: true 
