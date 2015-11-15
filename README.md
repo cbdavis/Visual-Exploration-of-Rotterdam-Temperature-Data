@@ -415,10 +415,6 @@ As we know from the violin plots further above, there can be a lot of variation 
 
 The final plot is one famously highlighted in Edward Tufte's [Visual Display of Quantitative Information](http://www.edwardtufte.com/tufte/books_vdqi) and [on his blog](http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=00014g), which illustrates temperature trends over a year, while also highlighting averages and records.  The original graphic is from The New York Times, January 4, 2004, A15.  Of course [someone has figured out how to duplicate this in R](https://rpubs.com/bradleyboehmke/weather_graphic), and the code here borrows from that example, with a few modifications.  
 
-The visualization consists of three horizontal bands.  The narrow one centered around the middle highlights the average highs and lows for that day of the year.  The widest band shows the record highs and lows.  The chaotic looking band shows the actual highs and lows for that day during the year.  Dots indicates where records have been broken.
-
-The animation shows how averages and records get refined over time.  At the beginning, we don't have any historical data, so every observational is a record.  As we get more samples each year, the characteristic shape of the actual expected temperature trends starts to emerge.
-
 
 ```r
 # from this initial data frame, other data frames will be derived
@@ -486,3 +482,7 @@ saveGIF({
 ```
 
 ![Animated GIF of Tufte Visualization](RotterdamTufteAnimation.gif) 
+
+The visualization consists of three horizontal bands.  The narrow one centered around the middle highlights the average highs and lows for that day of the year.  The widest band shows the record highs and lows.  The chaotic looking band shows the actual highs and lows for that day during the year.  Dots indicates where records have been broken.
+
+The animation shows how averages and records get refined over time.  At the beginning, we don't have any historical data, so every observational is a record.  As we get more samples each year, the characteristic shape of the actual expected temperature trends starts to emerge.
