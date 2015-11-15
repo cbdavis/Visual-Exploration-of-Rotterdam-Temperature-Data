@@ -6,7 +6,7 @@ output:
   html_document:  
     keep_md: true 
 ---
-**TL;DR Learn how to make plots like these using R:**
+**[TL;DR](https://en.wikipedia.org/wiki/TL;DR) Explore temperature data and learn how to make plots like these using R:**
 ![Animated GIF of Tufte Visualization](RotterdamTufteAnimation.gif) 
 ![Rotterdam temperature kernel density estimate, sliding window of 10 years](RotterdamTemperatureDensity10Years.gif) 
 
@@ -21,7 +21,7 @@ I'm not sure that focusing on a temperature increase of 2, 3, or 4 degrees is th
 
 To explore what temperature data looks like in more detail, we start with [hourly temperature measurements](http://www.knmi.nl/nederland-nu/klimatologie/uurgegevens) for Rotterdam from KNMI with observations from 1956 until the present.  These are analyzed through a variety of various visualization techniques without any sophisticated statistics involved, and with most of the code slicing, sorting, and filtering the data in various ways.  What's shown is very close to the actual raw data.  
 
-From a data analysis perspective, this code shows a lot of examples using the [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html), [ggplot2](http://docs.ggplot2.org/current/) and [animation](https://cran.r-project.org/web/packages/animation/index.html) packages for R.  In particular I've found through this work that dplyr is really quite powerful for performing complex data operations all within code that is still quite readable.  The secions on calculating the Hellman Wintergetal and also looking at trends in how daily temperature records are broken demonstrate this quite well.
+From a data analysis perspective, this code shows a lot of examples using the [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html), [ggplot2](http://docs.ggplot2.org/current/) and [animation](https://cran.r-project.org/web/packages/animation/index.html) packages for R.  In particular I've found through this work that dplyr is really quite powerful for performing complex data operations all within code that is still quite readable.  The sections on calculating the Hellman Wintergetal and also looking at trends in how daily temperature records are broken demonstrate this quite well.
 
 ```{r, message=FALSE, warning=FALSE}
 #never ever convert strings to factors
@@ -174,7 +174,7 @@ ggplot(hellman, aes(x=DayOfWinter, y=HellmanWintergetal, group=WinterYear)) +
   facet_wrap(~WinterYear)
 ```
 
-The image above shows the progression of each year's score on the Hellman Wintergetal.  It's quite clear from this something truly epic happed in 1962, and indeed this was [the coldest winter since 1789](https://nl.wikipedia.org/wiki/Winter_van_1962-1963) in the Netherlands.
+The image above shows the progression of each year's score on the Hellman Wintergetal.  It's quite clear from this something truly epic happened in 1962, and indeed this was [the coldest winter since 1789](https://nl.wikipedia.org/wiki/Winter_van_1962-1963) in the Netherlands.
 
 Ultimately, the winters are classified on their final scores which we can see below:
 
@@ -332,7 +332,7 @@ ggplot() +
   facet_wrap(~MonthName)
 ```
 
-Another way in which temperature trends could be summarized is by creating a Kernel Density Estimate (KDE) of all the temperatures we encounter over a sliding window of dates.  As shown by the [Wikipedia article](https://en.wikipedia.org/wiki/Kernel_density_estimation), a KDE is roughly equivalent to a histogram, except instead of counting observations, we create a "kernel" with a normal distribution at the location of each observation, and then sum up all the kernels.  The result is a sort of smoothed histogram, with the added bonus that we can also use this as a propability distribution whose shape closely matches that of the original data.
+Another way in which temperature trends could be summarized is by creating a Kernel Density Estimate (KDE) of all the temperatures we encounter over a sliding window of dates.  As shown by the [Wikipedia article](https://en.wikipedia.org/wiki/Kernel_density_estimation), a KDE is roughly equivalent to a histogram, except instead of counting observations, we create a "kernel" with a normal distribution at the location of each observation, and then sum up all the kernels.  The result is a sort of smoothed histogram, with the added bonus that we can also use this as a probability distribution whose shape closely matches that of the original data.
 
 ```{r DecadalTemperatureDensity, warning=FALSE, cache=TRUE, message=FALSE}
 startYear = min(weather$Year) + 1
@@ -377,13 +377,13 @@ saveGIF({
 ```
 ![Rotterdam temperature kernel density estimate, sliding window of 10 years](RotterdamTemperatureDensity10Years.gif) 
 
-As we know from the violin plots further above, there can be a lot of variaton between the years, so taking a sliding window of 10 years tends to average a lot of this out in order to better show longer term trends.  From this we can see that the likelihood of freezing temperatures is decreasing, and that of higher temperatures is increasing, with the most frequent temperatures being in the range of 5 to 10 degrees Celsius.
+As we know from the violin plots further above, there can be a lot of variation between the years, so taking a sliding window of 10 years tends to average a lot of this out in order to better show longer term trends.  From this we can see that the likelihood of freezing temperatures is decreasing, and that of higher temperatures is increasing, with the most frequent temperatures being in the range of 5 to 10 degrees Celsius.
 
-The final plot is one famously highlighed in Edward Tufte's [Visual Display of Quantitative Information](http://www.edwardtufte.com/tufte/books_vdqi) and [on his blog](http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=00014g), which illustrates temperature trends over a year, while also highlighting averages and records.  The original graphic is from The New York Times, January 4, 2004, A15.  Of course [someone has figured out how to duplicate this in R](https://rpubs.com/bradleyboehmke/weather_graphic), and the code here borrows from that example, with a few modifications.  
+The final plot is one famously highlighted in Edward Tufte's [Visual Display of Quantitative Information](http://www.edwardtufte.com/tufte/books_vdqi) and [on his blog](http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=00014g), which illustrates temperature trends over a year, while also highlighting averages and records.  The original graphic is from The New York Times, January 4, 2004, A15.  Of course [someone has figured out how to duplicate this in R](https://rpubs.com/bradleyboehmke/weather_graphic), and the code here borrows from that example, with a few modifications.  
 
-The visualization consists of three horizontal bands.  The narrow one centered arround the middle highlights the average highs and lows for that day of the year.  The widest band shows the record highs and lows.  The chaotic looking band shows the actual highs and lows for that day during the year.  Dots indicates where records have been broken.
+The visualization consists of three horizontal bands.  The narrow one centered around the middle highlights the average highs and lows for that day of the year.  The widest band shows the record highs and lows.  The chaotic looking band shows the actual highs and lows for that day during the year.  Dots indicates where records have been broken.
 
-The animation shows how averages and records get refined over time.  At the beginning, we don't have any historical data, so every observervation is a record.  As we get more samples each year, the characteristic shape of the actual expected temperature trends starts to emerge.
+The animation shows how averages and records get refined over time.  At the beginning, we don't have any historical data, so every observational is a record.  As we get more samples each year, the characteristic shape of the actual expected temperature trends starts to emerge.
 
 ```{r TuftePlot, warning=FALSE, cache=TRUE, fig.width=14, fig.height=10, warning=FALSE, message=FALSE}
 
