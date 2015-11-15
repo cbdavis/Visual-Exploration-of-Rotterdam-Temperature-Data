@@ -6,6 +6,9 @@ output:
   html_document:  
     keep_md: true 
 ---
+**TL;DR Learn how to make plots like these using R:**
+![Animated GIF of Tufte Visualization](RotterdamTufteAnimation.gif) 
+![Rotterdam temperature kernel density estimate, sliding window of 10 years](RotterdamTemperatureDensity10Years.gif) 
 
 There's a lot of discussion about weather and climate change, but what seems to not get covered that much is what temperature data *actually* looks like.  Arguments about whether a cold wave disproves global warning or a heat wave is a sign of impending doom, really miss the point that the weather is a chaotic system, which is something that very clearly shows up in the data.
 
@@ -13,11 +16,12 @@ I'm not sure that focusing on a temperature increase of 2, 3, or 4 degrees is th
 
 * If a day was a few degrees warmer than average, you probably wouldn't even notice it.  This actually happens all the time.
 * Averages aren't necessarily that interesting, but outliers are.  Average days don't cause chaos, it's the extreme series of days such as heat waves which can really cause a strain on society.
-* What matters is that we're pumping more energy into a complex global thermodynamic system, which may result in effects beyond what we expect.
+* Averages do matter quite a bit if you're talking about if water will exist in a liquid or solid state.  In the Netherlands, the winter temperatures often hover around freezing, and a few degrees difference can lead to quite different outcomes.
+* What ultimately matters is that we're pumping more energy into a complex global thermodynamic system, which may result in effects beyond what we expect.  We should keep in mind that hurricanes are basically just [giant heat engines](https://www.youtube.com/watch?v=1p-3YYYivIQ).
 
-To explore this in more detail, we look at [hourly temperature measurements](http://www.knmi.nl/nederland-nu/klimatologie/uurgegevens) for Rotterdam from KNMI with observations from 1956 until the present.  These are analyzed through a variety of various visualization techniques without any sophisticated statistics involved, and with most of the code slicing, sorting, and filtering the data in various ways.  What's shown is very close to the actual raw data.  
+To explore what temperature data looks like in more detail, we start with [hourly temperature measurements](http://www.knmi.nl/nederland-nu/klimatologie/uurgegevens) for Rotterdam from KNMI with observations from 1956 until the present.  These are analyzed through a variety of various visualization techniques without any sophisticated statistics involved, and with most of the code slicing, sorting, and filtering the data in various ways.  What's shown is very close to the actual raw data.  
 
-From a data analysis perspective, this code shows a lot of examples using the [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html), [ggplot2](http://docs.ggplot2.org/current/) and [animation](https://cran.r-project.org/web/packages/animation/index.html) packages for R.  In particular I've found through this work that dplyr is really quite power for performing complex data operations all within code that is still quite readable.
+From a data analysis perspective, this code shows a lot of examples using the [dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html), [ggplot2](http://docs.ggplot2.org/current/) and [animation](https://cran.r-project.org/web/packages/animation/index.html) packages for R.  In particular I've found through this work that dplyr is really quite powerful for performing complex data operations all within code that is still quite readable.  The secions on calculating the Hellman Wintergetal and also looking at trends in how daily temperature records are broken demonstrate this quite well.
 
 ```{r, message=FALSE, warning=FALSE}
 #never ever convert strings to factors
@@ -175,12 +179,14 @@ The image above shows the progression of each year's score on the Hellman Winter
 Ultimately, the winters are classified on their final scores which we can see below:
 
 ```{r HellmanWintergetalSummaryPerYear, warning=FALSE, cache=TRUE, fig.width=12, fig.height=8}
-hellmanYearlySummary = hellman %>% group_by(WinterYear) %>% summarize(maxHellmanWinterGetal = max(HellmanWintergetal))
+hellmanYearlySummary = hellman %>% 
+  group_by(WinterYear) %>% 
+  summarize(maxHellmanWinterGetal = max(HellmanWintergetal))
 
 hellmanClasses = data.frame(className = c("Strong", "Very cold", "Cold", "Normal", 
                                           "Gentle", "Very Gentle", "Extremely Gentle"),
                             xmin = rep(min(hellmanYearlySummary$WinterYear)-1, 7),
-                            xmax = rep(max(hellmanYearlySummary$WinterYear)+13, 7), # add buffer on right
+                            xmax = rep(max(hellmanYearlySummary$WinterYear)+13, 7), 
                             ymin = c(300, 160, 100, 40, 20, 10, 0),
                             ymax = c(350, 300, 160, 100, 40, 20, 10), 
                             meanYVal = c(325, 230, 130, 70, 30, 15, 5), 
@@ -334,8 +340,10 @@ finalYear = max(weather$Year) - 1
 windowSizeInYears = 10
 fileName = "RotterdamTemperatureDensity10Years.gif"
 endYear = startYear + windowSizeInYears - 1 
-  
-prevPlots = c() # hold semi-transparent versions of the previous density plots so we can show them in the background
+
+# hold semi-transparent versions of the previous density plots so we can show them in the background
+prevPlots = c() 
+
 saveGIF({  
   while(endYear <= finalYear){
     
