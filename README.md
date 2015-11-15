@@ -281,9 +281,7 @@ ggplot(recordsAllYears, aes(x=TempRecordAge)) +
 
 ![](VisualExploration_files/figure-html/HistogramOfHighLowTemperatureRecordAgesPerMonth-1.png) 
 
-This next plot requires a bit more explanation and gives an indication for how often record low and high temperatures are broken.  The idea is that we pick a day of the year 
-
-The idea is that we start with the first record high or low per day encountered in 1956 (or in 1957 as the 1956 data does not cover the whole year), and then for that same day of the year, we make a line that connects all other other times that we encountered new records on that day.  
+This next plot requires a bit more explanation and gives an indication for how often record low and high temperatures are broken. The idea is that we start with the first record high or low per day encountered in 1956 (or in 1957 as the 1956 data does not cover the whole year), and then for that same day of the year, we make a line that connects all other other times that we encountered new records on that day.  
 
 
 ```r
