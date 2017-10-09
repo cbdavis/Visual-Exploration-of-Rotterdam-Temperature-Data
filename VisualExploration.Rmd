@@ -3,10 +3,10 @@ title: "A Visual Exploration of Rotterdam Temperature Data"
 author: "Chris Davis"
 date: November 15, 2015
 output: 
-  html_document:  
-    keep_md: true 
-  md_document: 
-    variant: markdown_phpextra+backtick_code_blocks
+html_document:  
+keep_md: true 
+md_document: 
+variant: markdown_phpextra+backtick_code_blocks
 ---
 **[TL;DR](https://en.wikipedia.org/wiki/TL;DR) Explore temperature data and learn how to make plots like these using R:**
 ![Animated GIF of Tufte Visualization](RotterdamTufteAnimation.gif) 
@@ -115,7 +115,7 @@ tempSummaryPerYear = weather %>%
 
 ggplot() + geom_line(data=tempSummaryPerYear, aes(x=Year, y=maxTemp)) + 
   geom_line(data=tempSummaryPerYear, aes(x=Year, y=minTemp)) + 
-  geom_line(data=tempSummaryPerYear, aes(x=Year, y=meanTemp))
+  geom_line(data=tempSummaryPerYear, aes(x=Year, y=meanTemp)) + ylab("Temperature (C)")
 ```
 
 
@@ -127,8 +127,8 @@ Just from this visualization, we can see that different years have quite differe
 
 ```{r RotterdamHourlyDataViolinPlotPerYear, warning=FALSE, cache=TRUE, fig.width=14, fig.height=14}
 ggplot(weather, aes(x=DayOfYear, y=T)) + geom_violin() + facet_wrap(~Year) + 
-  geom_hline(y=0) + 
-  geom_hline(y=30)
+  geom_hline(yintercept=0) + 
+  geom_hline(yintercept=30)
 ```
 
 We can also try to measure something called the [Hellman Wintergetal](https://nl.wikipedia.org/wiki/Koudegetal) (in Dutch) which is used as a measure of the severity of winters.  The main idea with the measure is that over the course of the winter, we find days with average temperatures below zero and then sum up the absolute values of those averages.
@@ -349,12 +349,12 @@ saveGIF({
     
     if (startYear == endYear){
       titleText = paste0("Rotterdam ", windowSizeInYears, " year temperature density estimate (", 
-                     startYear, "), \n Based on hourly observations")
+                         startYear, "), \n Based on hourly observations")
     } else {
       titleText = paste0("Rotterdam ", windowSizeInYears, " year temperature density estimate (", 
-                     startYear, " to ", endYear, "), \n Based on hourly observations")
+                         startYear, " to ", endYear, "), \n Based on hourly observations")
     }
-
+    
     # should leave the old profiles behind in the transparency
     p = ggplot(weather %>% filter(Year %in% c(startYear:endYear)), 
                aes(x=T)) + 
@@ -449,3 +449,4 @@ saveGIF({
 The visualization consists of three horizontal bands.  The narrow one centered around the middle highlights the average highs and lows for that day of the year.  The widest band shows the record highs and lows.  The chaotic looking band shows the actual highs and lows for that day during the year.  Dots indicates where records have been broken.
 
 The animation shows how averages and records get refined over time.  At the beginning, we don't have any historical data, so every observational is a record.  As we get more samples each year, the characteristic shape of the actual expected temperature trends starts to emerge.
+
